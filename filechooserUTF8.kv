@@ -1,0 +1,375 @@
+<TypeDropDown@DropDown>:
+    scroll_timeout: 0
+    
+
+<ButtonDropDown@Button1>:
+    size: 210, 20
+    on_release: app.root.dropdown_selection(self.index)
+    
+
+
+
+<NavigationButton@Button>:
+    size_hint: None, None
+    size: 25, 25
+    pos_hint: {'center_y': 0.5}
+    #background_normal: 'buttons\\normal.png'
+    #background_down: 'buttons\\pressed.png'
+    border: 0, 0, 0, 0
+    disabled: True
+
+<PathInput@TextInput>:
+    font_name: "fonts\\NotoSansCJK-Medium.ttc"
+    font_size: 12
+    multiline: False
+    foreground_color: 0.3, 0.3, 0.3, 1
+    padding: 3, 0
+    border: 0,16,0,16
+    background_normal: ''
+    background_active: ''
+    on_text_validate: app.root.receive_path(self.text)
+    cursor_color: 0, 0, 0, 1
+
+<Button1@Button>:
+    font_name: "fonts\\NotoSansCJK-Medium.ttc"
+    font_size: 12    
+    size_hint: None, None
+    background_normal: 'buttons\\normal.png'
+    background_down: 'buttons\\pressed.png'
+    background_disabled_normal: 'buttons\\disabled.png'
+    disabled_color: 0.1, 0.1, 0.1, 0.4
+
+<FieldNames@Button>:
+    font_name: "fonts\\NotoSansCJK-Medium.ttc"
+    font_size: 12
+    background_normal: 'buttons\\transparency.png'
+    background_down: 'buttons\\pressed.png'
+    border: 0, 0, 0, 0
+    halign: 'left'
+    text_size: self.size
+    shorten: True
+    shorten_from: 'right'
+    padding: 3, 0
+    canvas.before:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+# <FileEntry@ToggleButton>:
+#     size_hint: 1, 1
+#     background_normal: 'buttons\\transparency.png'
+#     background_down: 'buttons\\pressed.png'
+#     disabled_color: 0.1, 0.1, 0.1, 0.4
+#     border: 0, 0, 0, 0
+#     halign: 'left'
+#     text_size: self.size
+#     shorten: True
+#     shorten_from: 'right'
+#     padding: 3, 0
+#     #on_release: app.root.select_file(self)
+#     on_press: app.root.select_file(self)
+#     min_state_time: 0
+
+<Entry@ToggleButton>:
+    font_name: "fonts\\NotoSansCJK-Medium.ttc"
+    font_size: 12
+    border: 0, 0, 0, 0
+    halign: 'left'
+    text_size: self.size
+    shorten: True
+    shorten_from: 'right'
+    padding: 3, 0
+    background_normal: 'buttons\\transparency.png'
+    background_down: 'buttons\\transparency.png'
+    index: ''
+    on_press: app.root.select_file(self.parent.index, self.state)
+
+<FileEntry@BoxLayout>:
+    size_hint: 1, 1
+    background_normal: 'buttons\\pressed.png'
+    background_down: 'buttons\\pressed.png'
+    #disabled_color: 0.1, 0.1, 0.1, 0.4
+    Entry:
+        id: name
+        size_hint: None, 1
+        size: root.width - 400, 0
+    Entry:
+        id: moddate
+        size_hint: None, 1
+        size: 200, 0
+
+    Entry:
+        id: type
+        size_hint: None, 1
+        size: 100, 0
+    Entry:
+        id: size
+        size_hint: None, 1
+        size: 100, 0
+
+<VerSeparator@Label>:
+    size_hint: None, 1
+
+<ButtonsBar@RelativeLayout>:
+    size_hint: 1, None
+    size: 0, 30
+    canvas:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Rectangle:
+            size: self.size
+            pos: 0, 0
+            
+    Label:
+        id: error_msg
+        pos_hint: {'center_y': 0.5}
+        pos: 3, 0
+        size_hint: None, None
+        size: 500, 20
+        halign: 'left'
+        padding: 3, 0
+        color: 1, 0, 0, 1
+        text_size: self.size
+
+    Button1:
+        pos_hint: {'center_y': 0.5}
+        pos: root.width - 2 * self.size[0] - 60, 0
+        size_hint: None, None
+        size: 100, 25
+        text: 'Open file'
+        on_release: app.root.open_file()
+
+    Button1:
+        pos_hint: {'center_y': 0.5}
+        pos: root.width - self.size[0] - 50, 0
+        size_hint: None, None
+        size: 100, 25
+        text: 'Cancel'
+        on_release: app.root.cancel()
+    
+
+<FileBar@RelativeLayout>:
+    size_hint: 1, None
+    size: 0, 30
+
+    canvas:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Rectangle:
+            size: self.size
+            pos: 0, 0
+
+    Label:
+        id: filename
+        font_name: "fonts\\NotoSansCJK-Medium.ttc"
+        font_size: 12
+        pos_hint: {'center_y': 0.5}
+        pos: 0.1 * root.width, 0
+        size_hint: None, None
+        size: self.texture_size[0], 20
+        text: 'File name:'
+
+    # VerSeparator:
+    #     size: 10, 0    
+
+    PathInput:
+        id: fileinput
+        pos_hint: {'center_y': 0.5}
+        pos: root.ids.filename.pos[0] + root.ids.filename.size[0] + 10, 0
+        size_hint: None, None
+        size: root.ids.dropdown.pos[0] - 10 - self.pos[0], 20
+
+    # TypeDropDown:
+    #     id: dropdown
+    #     pos_hint: {'center_y': 0.5}
+    #     pos: root.width - self.size[0] - 50, 0
+    #     size_hint: None, None
+    #     size: 210, 20
+
+    #     Button1:
+    #         #id: dropdown
+    #         #pos_hint: {'center_y': 0.5}
+    #         #pos: root.width - self.size[0] - 50, 0
+    #         size_hint: 1, None
+    #         size: 210, 20
+    #         text: 'Pasu file (*.pasu)'
+    #         #on_release: app.root.opendropdown(self)
+
+    Button1:
+        id: dropdown
+        pos_hint: {'center_y': 0.5}
+        pos: root.width - self.size[0] - 50, 0
+        size_hint: None, None
+        size: 210, 20
+        on_release: app.root.opendropdown(self)
+   
+<NavigationBar@BoxLayout>:
+    size_hint: 1, None
+    size: 0, 30
+
+    canvas:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    VerSeparator:
+        size: 10, 0
+
+    NavigationButton:
+        id: back
+        background_normal: 'buttons\\back_normal.png'
+        background_down: 'buttons\\back_pressed.png'
+        background_disabled_normal: 'buttons\\back_disabled.png'
+        background_disabled_down: 'buttons\\back_disabled.png'
+        on_release: app.root.back()
+        
+    VerSeparator:
+        size: 2, 0
+    
+    NavigationButton:
+        id: forward
+        background_normal: 'buttons\\forward_normal.png'
+        background_down: 'buttons\\forward_pressed.png'
+        background_disabled_normal: 'buttons\\forward_disabled.png'
+        background_disabled_down: 'buttons\\forward_disabled.png'
+        on_release: app.root.forward()
+
+    VerSeparator:
+        size: 2, 0
+
+    NavigationButton:
+        id: upper
+        background_normal: 'buttons\\upper_normal.png'
+        background_down: 'buttons\\upper_pressed.png'
+        background_disabled_normal: 'buttons\\upper_disabled.png'
+        background_disabled_down: 'buttons\\upper_disabled.png'
+        on_release: app.root.up()
+
+    VerSeparator:
+        size: 4, 0
+
+    PathInput:
+        id: pathinput
+        size_hint: 1, None
+        size: 0, 20
+        pos_hint: {'center_y': 0.5}
+    
+    VerSeparator:
+        size: 10, 0
+
+<ListPane@BoxLayout>:
+    orientation: 'vertical'
+
+    GridLayout:
+        cols: 4
+        size_hint: 1, None
+        #size: 0, 20
+        height: self.minimum_height
+        row_default_height: 20
+        row_force_default: True
+        cols_minimum: {0: root.width - 400, 1:200, 2:100, 3:100}
+        #cols_minimum: app.root.b
+        col_force_default: True
+
+        FieldNames:
+            text: 'Name'
+            #text: app.root.gg
+        FieldNames:
+            text: 'Modification date'
+        FieldNames:
+            text: 'Type'
+        FieldNames:
+            text: 'Size'
+
+    ScrollView:
+        scroll_timeout: 0
+        bar_width: 15
+        bar_inactive_color: 0.7, 0.7, 0.7, 0.4
+        scroll_type: ['bars', 'content']
+
+        GridLayout:
+            id: files_list
+            cols: 1
+            spacing: 0
+            height: self.minimum_height
+            size_hint: 1, None
+            row_default_height: 20
+            row_force_default: True
+            #cols_minimum: {0: root.width - 400, 1:200, 2:100, 3:100}
+
+<SideBar@BoxLayout>:
+    size_hint: None, 1
+    size: 170, 0
+
+    canvas:
+        Color:
+            rgba: 0.35, 0.35, 0.35, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    ScrollView:
+        scroll_timeout: 0
+        bar_width: 15
+        bar_inactive_color: 0.7, 0.7, 0.7, 0.4
+        scroll_type: ['bars', 'content']
+
+        GridLayout:
+            id: drives_grid
+            cols: 1
+            spacing: 1
+            height: self.minimum_height
+            size_hint: 1, None
+            padding: 3, 3
+
+<PartitionEntry@ToggleButton>:
+    font_name: "fonts\\NotoSansCJK-Medium.ttc"
+    font_size: 12
+    size_hint: 1, None
+    size: 0, 20
+    background_normal: 'buttons\\transparency.png'
+    background_down: 'buttons\\pressed.png'
+    background_disabled_normal: 'buttons\\disabled.png'
+    disabled_color: 0.1, 0.1, 0.1, 0.4
+    halign: 'left'
+    text_size: self.size
+    shorten: True
+    shorten_from: 'right'
+    padding: 3, 0
+    on_press: app.root.select_drive(self)
+    min_state_time: 0
+    already_selected: False
+    #on_press: print(self.state)
+
+
+<MainPane@BoxLayout>:
+    orientation: 'horizontal'
+
+    SideBar:
+
+    ListPane:
+
+
+<InterfaceWidget>:
+    font_name: 'Arial'
+
+    NavigationBar:
+        id: navbar
+        pos: 0, root.height - 30
+
+    FileBar:
+        pos: 0, 30
+
+    ButtonsBar:
+        pos: 0, 0
+
+    MainPane:
+        pos: 0, 60
+        size_hint: 1, None
+        size: 0, root.ids.navbar.pos[1] - 60
+
+
