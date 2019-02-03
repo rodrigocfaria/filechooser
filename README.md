@@ -1,4 +1,4 @@
-# Unnamed filechooser
+# filechooser
 A very basic and simple filechooser for Windows written in Python and Kivy.
 
 ## External dependencies
